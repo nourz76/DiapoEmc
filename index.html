@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'État marocain et sa Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Archivo:wght@400..800&family=Cairo:wght@700;900&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Pop propre : fond crème à pois, aplats vifs, contours noirs et ombres décalées, une couleur par idée. Scène 16:9 mise à l'échelle. */
+  --cream:#fff6e6;
+  --ink:#141414;
+  --red:#ff4d4d;
+  --green:#14b86e;
+  --yellow:#ffd23f;
+  --sky:#7cc7ff;
+  --pink:#ff8fb8;
+  --violet:#a98bff;
+  --display:'Bricolage Grotesque', 'Arial Black', system-ui, sans-serif;
+  --body:'Archivo', 'Segoe UI', system-ui, sans-serif;
+  --arab:'Cairo', 'Segoe UI', sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);overflow:hidden;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(rgba(20,20,20,.09) 1.6px,transparent 1.7px);background-size:26px 26px}
+.viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:64px}
+.stage{width:1600px;height:900px;position:relative;flex:none;transform-origin:center center}
+
+/* chrome */
+.brand{position:fixed;top:14px;left:18px;font-size:13px;font-weight:800;z-index:5;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:5px 12px;box-shadow:3px 3px 0 var(--ink)}
+.counter{position:fixed;top:12px;right:18px;font-family:var(--display);font-weight:800;font-size:18px;z-index:5;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:3px 12px;box-shadow:3px 3px 0 var(--ink);font-variant-numeric:tabular-nums}
+.progress{position:fixed;top:0;left:0;height:6px;background:var(--red);border-bottom:2px solid var(--ink);transition:width .5s cubic-bezier(.3,1.4,.5,1);z-index:6}
+.nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:6px;border-radius:999px;background:#fff;border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);z-index:7}
+.nav button{font:inherit;font-weight:800;color:var(--ink);background:transparent;border:0;cursor:pointer;height:38px;min-width:38px;border-radius:999px;display:grid;place-items:center;padding:0 14px;font-size:14px}
+.nav button:hover{background:#f1ece2}
+.nav button:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.nav .pill{border:2px solid var(--ink);background:var(--sky)}
+.nav .pill[aria-pressed="true"]{background:var(--yellow)}
+.dots{display:flex;gap:7px;padding:0 4px}
+.dots button{width:12px;min-width:12px;height:12px;padding:0;border-radius:50%;background:#fff;border:2px solid var(--ink)}
+.dots button[aria-current="true"]{background:var(--red);width:30px;border-radius:999px}
+.notes{position:fixed;left:50%;bottom:74px;transform:translate(-50%,16px);width:min(820px,calc(100% - 32px));max-height:46vh;overflow:auto;padding:22px 26px;border-radius:22px;background:#fff;border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);z-index:8;opacity:0;pointer-events:none;transition:.25s}
+.notes.open{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.notes h4{margin:0 0 10px;font-family:var(--display);font-weight:800;font-size:20px}
+.notes p{margin:0 0 10px;line-height:1.6;font-size:16px;max-width:72ch}
+.rotate{display:none;position:fixed;inset:auto 12px 72px 12px;padding:10px 14px;border-radius:12px;background:var(--yellow);border:2px solid var(--ink);font-weight:700;font-size:13px;text-align:center;z-index:6}
+@media (orientation:portrait) and (max-width:700px){.rotate{display:block}}
+
+/* commun */
+.slide{position:absolute;inset:0;padding:64px 96px 40px;display:none}
+.slide.active{display:block}
+.slide.active .rv{animation:boing .7s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(var(--d,0) * 90ms)}
+@keyframes boing{from{opacity:0;transform:translateY(30px) scale(.94)}to{opacity:1;transform:none}}
+h1,h2,h3{font-family:var(--display);margin:0;letter-spacing:-.025em;text-wrap:balance}
+.box{border:3px solid var(--ink);border-radius:28px;box-shadow:7px 7px 0 var(--ink)}
+.tag{display:inline-block;padding:8px 18px;border:3px solid var(--ink);border-radius:999px;font-weight:800;font-size:20px;background:#fff;box-shadow:4px 4px 0 var(--ink)}
+.tag.tilt{transform:rotate(-3deg);background:var(--yellow)}
+.mark{position:relative;white-space:nowrap;z-index:0}
+.mark::before{content:"";position:absolute;left:-10px;right:-10px;bottom:4px;height:44%;background:var(--hl,var(--yellow));border-radius:10px;z-index:-1;transform:rotate(-1.2deg)}
+.ico{width:58px;height:58px;border-radius:18px;border:3px solid var(--ink);background:#fff;display:grid;place-items:center;flex:none}
+.ico svg{width:32px;height:32px;stroke:var(--ink);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.head h2{font-size:80px;font-weight:800;line-height:1;margin-top:20px}
+.head .bubble{position:relative;max-width:400px;background:#fff;padding:16px 20px;font-size:20px;font-weight:600;line-height:1.35;border-radius:22px}
+.head .bubble::after{content:"";position:absolute;left:40px;bottom:-15px;width:24px;height:24px;background:#fff;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg)}
+
+/* slide 1 */
+.s1{grid-template-columns:1fr 560px;gap:64px;align-items:center}
+.s1.active{display:grid}
+.s1 h1{font-size:80px;font-weight:800;line-height:1.02;margin:26px 0 22px}
+.pills{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pills .tag{font-size:19px;box-shadow:3px 3px 0 var(--ink)}
+.pills small{font-weight:700;font-size:16px;color:#555;margin-left:6px}
+.consts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.const{padding:18px 16px 20px;display:flex;flex-direction:column;gap:12px;border-radius:24px;box-shadow:5px 5px 0 var(--ink)}
+.const .top{display:flex;justify-content:space-between;align-items:flex-start}
+.const .ico{width:52px;height:52px;border-radius:16px}
+.const .ico svg{width:28px;height:28px}
+.const .n{font-family:var(--display);font-weight:800;font-size:26px}
+.const b{font-family:var(--display);font-size:25px;font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.const small{font-size:15px;font-weight:600;line-height:1.3;margin-top:-6px}
+.flagcard{background:var(--sky);padding:40px 36px 34px;display:flex;flex-direction:column;align-items:center;gap:26px;position:relative}
+.flagcard .flag{width:440px;height:293px;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink);background:#fff;transform:rotate(-2deg)}
+.flagcard .lbl{position:absolute;top:-22px;right:28px;transform:rotate(4deg);background:var(--pink)}
+.devise{text-align:center;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:14px 26px;width:100%}
+.devise .ar{font-family:var(--arab);font-weight:900;font-size:46px;line-height:1.35;direction:rtl}
+.devise .fr{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:-.02em}
+.langs{display:flex;gap:10px;align-items:center;font-weight:800;font-size:17px}
+.langs span{background:#fff;border:3px solid var(--ink);border-radius:999px;padding:3px 14px;font-size:21px}
+.langs .ar2{font-family:var(--arab);font-weight:700}
+.langs .tf{font-family:'Noto Sans Tifinagh', sans-serif}
+
+/* slide 2 */
+.king{margin:30px auto 0;width:860px;display:flex;align-items:center;gap:22px;padding:14px 26px 14px 14px;border-radius:999px;background:var(--yellow)}
+.king .ico{width:72px;height:72px;border-radius:50%}
+.king .ico svg{width:42px;height:42px}
+.king b{font-family:var(--display);font-size:38px;font-weight:800;letter-spacing:-.02em;display:block;line-height:1}
+.king span{display:block;font-size:18px;font-weight:600;margin-top:4px}
+.links{display:block;width:1408px;height:46px;margin:0 auto}
+.links path{stroke:var(--ink);stroke-width:4;fill:none;stroke-linecap:round;stroke-dasharray:1400;stroke-dashoffset:0}
+.s2.active .links path{animation:draw 1s .45s cubic-bezier(.6,0,.2,1) both}
+@keyframes draw{from{stroke-dashoffset:1400}to{stroke-dashoffset:0}}
+.powers{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:28px}
+.power{padding:24px 26px;min-height:440px;display:flex;flex-direction:column;gap:12px}
+.power .row1{display:flex;align-items:center;gap:14px}
+.power .k{font-size:15px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:4px 12px}
+.power h3{font-size:40px;font-weight:800;line-height:1.02}
+.power p{margin:0;font-size:19px;line-height:1.45;font-weight:600}
+.power .big{margin-top:auto;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:14px 18px}
+.power .big b{display:block;font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.02em}
+.power .big span{display:block;font-size:16px;font-weight:600;line-height:1.4;margin-top:6px}
+.p1{background:var(--red)}
+.p2{background:var(--green)}
+.p3{background:var(--sky)}
+.hemi{width:100%;max-width:300px;height:auto;display:block;margin:0 auto}
+.hemi circle{fill:#fff;stroke:var(--ink);stroke-width:1.3;transform-box:fill-box;transform-origin:center}
+.s2.active .hemi circle{animation:pop .4s cubic-bezier(.2,.9,.3,1.6) both;animation-delay:calc(600ms + var(--i) * 2ms)}
+@keyframes pop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.chambers{display:flex;gap:14px}
+.chambers .big{margin-top:0;flex:1}
+
+/* slide 3 */
+.cols{display:grid;grid-template-columns:1fr 1.35fr;gap:30px;margin-top:34px}
+.col{padding:24px 26px;background:#fff}
+.col h3{font-size:32px;font-weight:800;display:flex;align-items:center;gap:12px}
+.col h3 i{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid var(--ink);background:var(--c)}
+.ctrl{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.ctrl .r{display:flex;gap:16px;align-items:center;padding:12px 14px;border:3px solid var(--ink);border-radius:20px;background:#fff1f1}
+.ctrl .ico{background:var(--red)}
+.ctrl b{display:block;font-family:var(--display);font-size:24px;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+.ctrl span{font-size:17px;font-weight:600}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.tile{padding:12px 16px;border:3px solid var(--ink);border-radius:20px;background:var(--t)}
+.tile.wide{grid-column:span 2;display:flex;gap:18px;align-items:center}
+.tile .ac{font-family:var(--display);font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.tile .role{font-size:18px;font-weight:700;margin-top:4px}
+.tile .full{font-size:14px;font-weight:600;color:#333;margin-top:2px;line-height:1.3}
+.recap{margin-top:30px;display:flex;align-items:center;gap:16px;padding:16px 22px;background:var(--yellow);border-radius:999px}
+.recap .lbl{font-family:var(--display);font-weight:800;font-size:26px;margin-right:6px}
+.recap .tag{font-size:21px;box-shadow:3px 3px 0 var(--ink)}
+.recap .plus{font-family:var(--display);font-weight:800;font-size:30px}
+
+@media (prefers-reduced-motion:reduce){
+  .slide.active .rv,.s2.active .links path,.s2.active .hemi circle{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="brand">Assemblée MLF 2030 · Groupe 1</div>
+<div class="counter" id="counter">1 / 3</div>
+
+<div class="viewport">
+<main class="stage" id="stage">
+
+<!-- ===== SLIDE 1 ===== -->
+<section class="slide s1 active" data-title="La Constitution, ses principes et sa devise">
+  <div>
+    <span class="tag tilt rv" style="--d:0">Constitution de 2011 · votée par référendum</span>
+    <h1 class="rv" style="--d:1">Le Maroc, une monarchie <span class="mark">constitutionnelle</span></h1>
+    <div class="pills rv" style="--d:2"><span class="tag">Démocratique</span><span class="tag">Parlementaire</span><span class="tag">Sociale</span><small>article 1</small></div>
+    <div class="consts">
+      <div class="const box rv" style="--d:3;background:var(--green)">
+        <div class="top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M15.5 3.5a8.5 8.5 0 1 0 5 14 7 7 0 1 1-5-14z"/></svg></div><span class="n">1</span></div>
+        <b>Islam modéré</b><small>la religion de l'État</small>
+      </div>
+      <div class="const box rv" style="--d:4;background:var(--pink)">
+        <div class="top"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.2a3 3 0 0 1 0 5.6M18 14c2 .8 3 2.8 3 6"/></svg></div><span class="n">2</span></div>
+        <b>Unité nationale</b><small>un peuple aux multiples racines</small>
+      </div>
+      <div class="const box rv" style="--d:5;background:var(--yellow)">
+        <div class="top"><div class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/><rect x="6" y="6" width="12" height="12" transform="rotate(45 12 12)"/></svg></div><span class="n">3</span></div>
+        <b>Monarchie</b><small>le Roi est chef de l'État</small>
+      </div>
+      <div class="const box rv" style="--d:6;background:var(--violet)">
+        <div class="top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 11h16v9H4zM8 11V4h8v7"/><path d="m10 7.5 1.5 1.5L14 6"/></svg></div><span class="n">4</span></div>
+        <b>Démocratie</b><small>on choisit en votant</small>
+      </div>
+    </div>
+  </div>
+  <div class="flagcard box rv" style="--d:2">
+    <span class="tag lbl">Devise · article 4</span>
+    <svg class="flag" viewBox="0 0 300 200" role="img" aria-label="Drapeau du Maroc">
+      <rect width="300" height="200" fill="#c1272d"/>
+      <path d="M150 42 L184.1 147 L94.8 82.1 L205.2 82.1 L115.9 147 Z" fill="none" stroke="#006233" stroke-width="7.5"/>
+    </svg>
+    <div class="devise">
+      <div class="ar" lang="ar">الله · الوطن · الملك</div>
+      <div class="fr">Dieu · la Patrie · le Roi</div>
+    </div>
+    <div class="langs">On parle : <span class="ar2" lang="ar">العربية</span><span class="tf" lang="zgh">ⵜⴰⵎⴰⵣⵉⵖⵜ</span></div>
+  </div>
+  <template class="note">
+    <p>Bonjour à toutes et à tous. Avant de parler des élections, il faut comprendre comment fonctionne l'État marocain. Tout est écrit dans un texte très important : la Constitution. C'est en quelque sorte la « règle du jeu » du pays.</p>
+    <p>La Constitution actuelle date de 2011. Elle a été adoptée par référendum : ce sont donc les citoyens eux-mêmes qui l'ont approuvée par un vote.</p>
+    <p>Selon l'article 1, le Maroc est une monarchie constitutionnelle, démocratique, parlementaire et sociale. La nation s'appuie sur quatre constantes : la religion musulmane modérée, l'unité nationale aux multiples affluents, la monarchie constitutionnelle et le choix démocratique.</p>
+    <p>La devise du Royaume, inscrite à l'article 4, est « Dieu, la Patrie, le Roi ». Les langues officielles sont l'arabe et l'amazighe.</p>
+  </template>
+</section>
+
+<!-- ===== SLIDE 2 ===== -->
+<section class="slide s2" data-title="L'organisation des pouvoirs">
+  <div class="head">
+    <div>
+      <span class="tag tilt rv" style="--d:0">L'organisation des pouvoirs</span>
+      <h2 class="rv" style="--d:1">Qui fait <span class="mark" style="--hl:var(--pink)">quoi ?</span></h2>
+    </div>
+    <p class="bubble box rv" style="--d:2">Le pouvoir est partagé en trois, pour que personne ne décide de tout&nbsp;!</p>
+  </div>
+  <div class="king box rv" style="--d:2">
+    <div class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/><rect x="6" y="6" width="12" height="12" transform="rotate(45 12 12)"/></svg></div>
+    <div><b>Le Roi</b><span>Chef de l'État · Amir Al Mouminine · arbitre entre les institutions</span></div>
+  </div>
+  <svg class="links" viewBox="0 0 1408 46" aria-hidden="true">
+    <path d="M704 0 V14 Q704 23 695 23 H233 Q224 23 224 32 V46"/>
+    <path d="M704 0 V46"/>
+    <path d="M704 14 Q704 23 713 23 H1175 Q1184 23 1184 32 V46"/>
+  </svg>
+  <div class="powers">
+    <article class="power p1 box rv" style="--d:4">
+      <div class="row1"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></div><span class="k">Exécutif</span></div>
+      <h3>Le gouvernement</h3>
+      <p>Il applique les lois et fait marcher le pays au quotidien.</p>
+      <div class="big"><b>Chef du gouv.</b><span>nommé par le Roi dans le parti arrivé 1er aux législatives (art. 47)</span></div>
+    </article>
+    <article class="power p2 box rv" style="--d:5">
+      <div class="row1"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 10 12 4l9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg></div><span class="k">Législatif</span></div>
+      <h3>Le Parlement</h3>
+      <svg class="hemi" id="hemi" viewBox="0 0 420 212" role="img" aria-label="Hémicycle de 395 sièges"></svg>
+      <div class="chambers">
+        <div class="big"><b>395</b><span>députés élus par les citoyens, pour 5 ans</span></div>
+        <div class="big"><b>120</b><span>conseillers, pour 6 ans</span></div>
+      </div>
+    </article>
+    <article class="power p3 box rv" style="--d:6">
+      <div class="row1"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14M5 7l-3 7a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0z"/></svg></div><span class="k">Judiciaire</span></div>
+      <h3>Les juges</h3>
+      <p>Ils rendent la justice et font respecter la loi.</p>
+      <div class="big"><b>Indépendants</b><span>personne ne peut leur dire quoi décider</span></div>
+    </article>
+  </div>
+  <template class="note">
+    <p>Au sommet de l'État se trouve le Roi. Il est chef de l'État, Amir Al Mouminine, c'est-à-dire Commandeur des croyants, et arbitre suprême entre les institutions.</p>
+    <p>La Constitution sépare ensuite trois pouvoirs. Le pouvoir exécutif appartient au gouvernement : il applique les lois et dirige l'administration. Son chef est nommé par le Roi au sein du parti arrivé en tête des élections législatives (article 47).</p>
+    <p>Le pouvoir législatif appartient au Parlement, qui vote les lois. Il a deux chambres : la Chambre des représentants, dont les 395 députés sont élus directement par les citoyens pour cinq ans, et la Chambre des conseillers, dont les 120 membres représentent les régions, les communes, les professionnels et les salariés.</p>
+    <p>Enfin, le pouvoir judiciaire, celui des juges, est indépendant du gouvernement et du Parlement.</p>
+  </template>
+</section>
+
+<!-- ===== SLIDE 3 ===== -->
+<section class="slide s3" data-title="Contrôle et régulation">
+  <div class="head">
+    <div>
+      <span class="tag tilt rv" style="--d:0">Contrôle et régulation</span>
+      <h2 class="rv" style="--d:1">Qui surveille <span class="mark" style="--hl:var(--sky)">le pouvoir ?</span></h2>
+    </div>
+    <p class="bubble box rv" style="--d:2">Des « gardiens » vérifient que chacun respecte les règles.</p>
+  </div>
+  <div class="cols">
+    <div class="col box rv" style="--d:3">
+      <h3><i style="--c:var(--red)"></i>Contrôler</h3>
+      <div class="ctrl">
+        <div class="r"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 9.5 12 4l9 5.5M4 10h16M6 10v8M10 10v8M14 10v8M18 10v8M3 20h18"/></svg></div><div><b>Cour constitutionnelle</b><span>les lois respectent la Constitution ?</span></div></div>
+        <div class="r"><div class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><div><b>Cour des comptes</b><span>surveille l'argent public</span></div></div>
+        <div class="r"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H10l-6 4z"/><path d="M8 9h8M8 12h5"/></svg></div><div><b>Le Parlement</b><span>questionne les ministres, peut renverser le gouvernement</span></div></div>
+      </div>
+    </div>
+    <div class="col box rv" style="--d:4">
+      <h3><i style="--c:var(--green)"></i>Réguler</h3>
+      <div class="tiles">
+        <div class="tile" style="--t:#c9f2dd"><div class="ac">CNDH</div><div class="role">protège nos droits</div><div class="full">Conseil national des droits de l'Homme</div></div>
+        <div class="tile" style="--t:#ffe3ee"><div class="ac">Médiateur</div><div class="role">aide face à l'administration</div><div class="full">Institution du Médiateur</div></div>
+        <div class="tile" style="--t:#dcefff"><div class="ac">HACA</div><div class="role">surveille télé et radio</div><div class="full">Haute autorité de la communication audiovisuelle</div></div>
+        <div class="tile" style="--t:#fff1bf"><div class="ac">Concurrence</div><div class="role">des entreprises loyales</div><div class="full">Conseil de la concurrence</div></div>
+        <div class="tile wide" style="--t:#ece4ff"><div class="ac">INPPLC</div><div><div class="role">lutte contre la corruption</div><div class="full">Instance nationale de la probité, de la prévention et de la lutte contre la corruption</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="recap box rv" style="--d:6">
+    <span class="lbl">À retenir :</span>
+    <span class="tag">1 Constitution</span><span class="plus">+</span>
+    <span class="tag">3 pouvoirs</span><span class="plus">+</span>
+    <span class="tag">des gardiens</span>
+  </div>
+  <template class="note">
+    <p>Pour éviter qu'un pouvoir abuse de sa force, la Constitution prévoit des contrôles. La Cour constitutionnelle vérifie que les lois respectent la Constitution. La Cour des comptes contrôle l'utilisation de l'argent public. Le Parlement, lui, contrôle le gouvernement : les députés posent des questions aux ministres et peuvent même le renverser par une motion de censure.</p>
+    <p>À côté, des institutions de régulation veillent au respect des droits et des règles : le Conseil national des droits de l'Homme, le Médiateur, qui aide les citoyens face à l'administration, la Haute autorité de la communication audiovisuelle, le Conseil de la concurrence et l'Instance nationale de la probité, qui lutte contre la corruption.</p>
+  </template>
+</section>
+
+</main>
+</div>
+
+<div class="rotate">Tourne ton téléphone pour voir les diapos en grand</div>
+
+<nav class="nav" aria-label="Navigation des diapos">
+  <button id="prev" aria-label="Diapo précédente">←</button>
+  <div class="dots" id="dots"></div>
+  <button id="next" aria-label="Diapo suivante">→</button>
+  <button class="pill" id="fsBtn">Plein écran</button>
+</nav>
+
+<script>
+(function(){
+  const slides=[...document.querySelectorAll('.slide')];
+  const stage=document.getElementById('stage');
+  const dots=document.getElementById('dots');
+  let cur=0;
+
+  function fit(){
+    const w=window.innerWidth, h=window.innerHeight-64;
+    stage.style.transform='scale('+Math.min(w/1600,h/900)+')';
+  }
+  window.addEventListener('resize',fit); fit();
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label','Diapo '+(i+1));
+    b.onclick=()=>go(i);
+    dots.appendChild(b);
+  });
+
+  function go(i){
+    if(i<0||i>=slides.length) return;
+    slides[cur].classList.remove('active');
+    cur=i;
+    const s=slides[cur];
+    void s.offsetWidth;
+    s.classList.add('active');
+    [...dots.children].forEach((d,j)=>d.setAttribute('aria-current',j===cur));
+    document.getElementById('counter').textContent=(cur+1)+' / '+slides.length;
+    document.getElementById('progress').style.width=((cur+1)/slides.length*100)+'%';
+    try{ history.replaceState(null,'','#diapo-'+(cur+1)); }catch(e){}
+  }
+
+  document.getElementById('prev').onclick=()=>go(cur-1);
+  document.getElementById('next').onclick=()=>go(cur+1);
+  document.getElementById('fsBtn').onclick=()=>{
+    try{
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}
+      else{document.exitFullscreen().catch(()=>{});}
+    }catch(e){}
+  };
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1);}
+    if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1);}
+  });
+  let tx=null;
+  document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(tx===null) return;
+    const dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>50) go(cur+(dx<0?1:-1));
+    tx=null;
+  });
+
+  // hémicycle : 395 sièges
+  (function(){
+    const svg=document.getElementById('hemi');
+    const N=395, rows=10, cx=210, cy=204, r0=78, r1=196;
+    const radii=[...Array(rows)].map((_,i)=>r0+(r1-r0)*i/(rows-1));
+    const sum=radii.reduce((a,b)=>a+b,0);
+    const counts=radii.map(r=>Math.round(N*r/sum));
+    counts[rows-1]+=N-counts.reduce((a,b)=>a+b,0);
+    const seats=[];
+    radii.forEach((r,i)=>{
+      const k=counts[i];
+      for(let j=0;j<k;j++){
+        const a=Math.PI*(1-j/(k-1));
+        seats.push({x:cx+r*Math.cos(a),y:cy-r*Math.sin(a),a});
+      }
+    });
+    seats.sort((p,q)=>q.a-p.a);
+    const ns='http://www.w3.org/2000/svg';
+    seats.forEach((p,i)=>{
+      const c=document.createElementNS(ns,'circle');
+      c.setAttribute('cx',p.x.toFixed(1));c.setAttribute('cy',p.y.toFixed(1));c.setAttribute('r','4.6');
+      c.style.setProperty('--i',i);
+      svg.appendChild(c);
+    });
+  })();
+
+  const m=/#diapo-(\d)/.exec(location.hash);
+  go(m?Math.min(slides.length-1,Math.max(0,+m[1]-1)):0);
+})();
+</script>
+</body>
+</html>
